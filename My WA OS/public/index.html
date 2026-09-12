@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lanez Pure™ OS Dashboard</title>
+    <title>Lanez Pure™ OS - Web Dashboard</title>
     <script src="/socket.io/socket.io.js"></script>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: #0b141a;
+            color: #e9edef;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,35 +23,37 @@
             padding: 16px;
         }
 
-        .container {
+        .card {
             width: 100%;
-            max-width: 420px;
-            background-color: #1e293b;
-            border-radius: 16px;
+            max-width: 400px;
+            background-color: #111b21;
+            border-radius: 12px;
             padding: 24px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid #334155;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            border: 1px solid #222d34;
             text-align: center;
         }
 
-        .logo-container img {
-            width: 80px;
-            height: 80px;
+        .avatar {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            border: 3px solid #25d366;
+            border: 3px solid #00a884;
             object-fit: cover;
             margin-bottom: 12px;
         }
 
         h1 {
-            font-size: 1.25rem;
-            color: #f8fafc;
+            font-size: 1.3rem;
+            color: #00a884;
             margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        p.subtitle {
+        p.desc {
             font-size: 0.85rem;
-            color: #94a3b8;
+            color: #8696a0;
             margin-bottom: 20px;
         }
 
@@ -63,137 +65,167 @@
         label {
             display: block;
             font-size: 0.8rem;
-            color: #cbd5e1;
+            color: #8696a0;
             margin-bottom: 6px;
         }
 
-        input[type="text"] {
+        input {
             width: 100%;
             padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #475569;
-            background-color: #0f172a;
-            color: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #2a3942;
+            background-color: #202c33;
+            color: #e9edef;
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        input[type="text"]:focus {
-            border-color: #25d366;
+        input:focus {
+            border-color: #00a884;
         }
 
-        button.submit-btn {
+        .btn {
             width: 100%;
             padding: 14px;
-            background-color: #25d366;
-            color: #000000;
+            background-color: #00a884;
+            color: #111b21;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1rem;
-            font-weight: 700;
+            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.2s, opacity 0.2s;
         }
 
-        button.submit-btn:active {
+        .btn:active {
             opacity: 0.8;
         }
 
-        .code-card {
+        .code-container {
             display: none;
             margin-top: 20px;
-            background-color: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 12px;
+            background-color: #202c33;
+            border: 1px solid #00a884;
+            border-radius: 8px;
             padding: 16px;
-            position: relative;
         }
 
-        .code-display {
+        .pairing-code {
             font-family: monospace;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
-            letter-spacing: 4px;
-            color: #38bdf8;
+            letter-spacing: 6px;
+            color: #00a884;
             margin: 10px 0;
-            user-select: all;
         }
 
         .copy-btn {
-            background-color: #334155;
-            color: #f8fafc;
-            border: 1px solid #475569;
-            padding: 8px 16px;
+            background-color: #2a3942;
+            color: #e9edef;
+            border: none;
+            padding: 10px 16px;
             border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
-            margin-top: 6px;
-            transition: all 0.2s;
+            width: 100%;
+            font-weight: bold;
         }
 
-        .copy-btn:active {
-            background-color: #25d366;
-            color: #000000;
+        .features {
+            margin-top: 24px;
+            text-align: left;
+            border-top: 1px solid #222d34;
+            padding-top: 16px;
+        }
+
+        .features h3 {
+            font-size: 0.85rem;
+            color: #00a884;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .feature-list {
+            list-style: none;
+            font-size: 0.82rem;
+            color: #8696a0;
+        }
+
+        .feature-list li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li::before {
+            content: "⚡";
+            margin-right: 8px;
         }
 
         .status {
             font-size: 0.85rem;
-            color: #94a3b8;
+            color: #8696a0;
             margin-top: 12px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="logo-container">
-            <img src="/logo.jpg" alt="Lanez Pure Logo" onerror="this.style.display='none'">
-        </div>
+    <div class="card">
+        <img src="/logo.jpg" alt="Lanez Pure" class="avatar" onerror="this.style.display='none'">
         <h1>LANEZ PURE™ OS</h1>
-        <p class="subtitle">Enter your WhatsApp number with country code to link your account.</p>
+        <p class="desc">Link your WhatsApp account to enable automated bot features.</p>
 
         <form id="pairForm">
             <div class="input-group">
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" placeholder="e.g. 233500000000" required>
+                <label for="phone">Phone Number (With Country Code)</label>
+                <input type="text" id="phone" placeholder="233500000000" required>
             </div>
-            <button type="submit" class="submit-btn" id="btnText">Get Pairing Code</button>
+            <button type="submit" class="btn" id="btnText">Get Pairing Code</button>
         </form>
 
-        <div class="code-card" id="codeCard">
-            <label>Your Pairing Code:</label>
-            <div class="code-display" id="codeDisplay">------</div>
-            <button class="copy-btn" id="copyBtn" onclick="copyCode()">Tap to Copy 📋</button>
+        <div class="code-container" id="codeContainer">
+            <label>Pairing Code:</label>
+            <div class="pairing-code" id="codeDisplay">------</div>
+            <button class="copy-btn" id="copyBtn" onclick="manualCopy()">Copy Code 📋</button>
         </div>
 
         <p class="status" id="statusText"></p>
+
+        <!-- RESTORED LANEZ PURE FEATURES PANEL -->
+        <div class="features">
+            <h3>Lanez Pure™ Active Suite</h3>
+            <ul class="feature-list">
+                <li>Auto View-Once Media Unlocker (.ok)</li>
+                <li>Instant Image to Sticker Engine (.sticker)</li>
+                <li>Group Tagall & Hidden Announcements (.tagall, .hidetag)</li>
+                <li>Auto DM Welcome Dashboard & Profile Sync</li>
+            </ul>
+        </div>
     </div>
 
     <script>
         const socket = io();
         const pairForm = document.getElementById('pairForm');
         const phoneInput = document.getElementById('phone');
-        const codeCard = document.getElementById('codeCard');
+        const codeContainer = document.getElementById('codeContainer');
         const codeDisplay = document.getElementById('codeDisplay');
         const statusText = document.getElementById('statusText');
         const btnText = document.getElementById('btnText');
+        const copyBtn = document.getElementById('copyBtn');
 
         pairForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const phone = phoneInput.value.trim().replace(/[^0-9]/g, '');
 
             if (!phone) {
-                statusText.innerText = "Please enter a valid phone number.";
+                statusText.innerText = "Enter a valid phone number.";
                 return;
             }
 
-            btnText.innerText = "Generating Code...";
-            statusText.innerText = "Connecting to WhatsApp servers...";
-            codeCard.style.display = "none";
+            btnText.innerText = "Generating...";
+            statusText.innerText = "Connecting to WhatsApp...";
+            codeContainer.style.display = "none";
 
-            // Emit pairing request to Node.js backend
             socket.emit('request-code', phone);
         });
 
@@ -201,29 +233,35 @@
             btnText.innerText = "Get Pairing Code";
             if (data.code) {
                 codeDisplay.innerText = data.code;
-                codeCard.style.display = "block";
-                statusText.innerText = "Enter this code in WhatsApp under Linked Devices.";
+                codeContainer.style.display = "block";
+                statusText.innerText = "Code generated! Auto-copied to clipboard.";
+
+                // Automatic Copy to Clipboard
+                navigator.clipboard.writeText(data.code).then(() => {
+                    copyBtn.innerText = "Auto-Copied to Clipboard! ✅";
+                    copyBtn.style.backgroundColor = "#00a884";
+                    copyBtn.style.color = "#111b21";
+                }).catch(() => {
+                    copyBtn.innerText = "Tap to Copy 📋";
+                });
+
             } else {
-                statusText.innerText = "Failed to generate code. Please try again.";
+                statusText.innerText = "Failed to get pairing code. Check logs.";
             }
         });
 
-        function copyCode() {
+        function manualCopy() {
             const code = codeDisplay.innerText;
             if (code && code !== '------') {
                 navigator.clipboard.writeText(code).then(() => {
-                    const copyBtn = document.getElementById('copyBtn');
                     copyBtn.innerText = "Copied! ✅";
-                    copyBtn.style.backgroundColor = "#25d366";
-                    copyBtn.style.color = "#000000";
-
+                    copyBtn.style.backgroundColor = "#00a884";
+                    copyBtn.style.color = "#111b21";
                     setTimeout(() => {
-                        copyBtn.innerText = "Tap to Copy 📋";
-                        copyBtn.style.backgroundColor = "#334155";
-                        copyBtn.style.color = "#f8fafc";
+                        copyBtn.innerText = "Copy Code 📋";
+                        copyBtn.style.backgroundColor = "#2a3942";
+                        copyBtn.style.color = "#e9edef";
                     }, 2000);
-                }).catch(err => {
-                    console.error('Copy failed:', err);
                 });
             }
         }
