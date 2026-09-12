@@ -54,6 +54,57 @@ async function startBot(pairingNumber = null, onCodeGenerated = null) {
             }
         } else if (connection === 'open') {
             console.log('✅ WhatsApp Bot Connected!');
+
+            const botJid = sock.user.id.split(':')[0] + '@s.whatsapp.net';
+            const logoPath = path.join(__dirname, 'public', 'logo.jpg');
+
+            // 1. Automatically Update Profile Picture
+            if (fs.existsSync(logoPath)) {
+                try {
+                    await sock.updateProfilePicture(botJid, { url: logoPath });
+                    console.log('🖼️ Bot profile picture updated successfully!');
+                } catch (err) {
+                    console.error('Failed to update profile picture:', err.message);
+                }
+            }
+
+            // 2. Send Welcome DM to User
+            try {
+                const uptimeSeconds = Math.floor(process.uptime());
+                const uptimeMin = Math.floor(uptimeSeconds / 60);
+
+                const welcomeCaption = `
+🚀 *WELCOME TO LANEZ PURE™ OS*
+───────────────────
+*System Status:* Connected & Online 🟢
+*Latency:* ~0.4s
+*Uptime:* ${uptimeMin} mins
+*Developer:* @Callistus
+
+📌 *QUICK COMMAND DASHBOARD:*
+• \`.ok\` — Unlock View Once Photos & Videos
+• \`.sticker\` — Convert Image to WhatsApp Sticker
+• \`.tagall\` — Mention All Group Members
+• \`.hidetag\` — Hidden Group Announcement
+• \`.ping\` — Test Bot Response Speed
+• \`.menu\` — Display Full Feature Panel
+
+───────────────────
+⚡ *Lanez Pure™ Engine is actively running on your account.*
+`;
+
+                if (fs.existsSync(logoPath)) {
+                    await sock.sendMessage(botJid, {
+                        image: fs.readFileSync(logoPath),
+                        caption: welcomeCaption.trim()
+                    });
+                } else {
+                    await sock.sendMessage(botJid, { text: welcomeCaption.trim() });
+                }
+                console.log('📩 Welcome dashboard sent to DM.');
+            } catch (err) {
+                console.error('Failed to send welcome DM:', err.message);
+            }
         }
     });
 
@@ -121,4 +172,4 @@ async function startBot(pairingNumber = null, onCodeGenerated = null) {
 }
 
 module.exports = { startBot };
-      
+                
