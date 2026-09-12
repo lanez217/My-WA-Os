@@ -1,1 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lanez Pure™ OS</title>
 
+<meta property="og:title" content="Lanez Pure™ OS — All-in-One Dashboard">
+<meta property="og:description" content="HD Downloader, WhatsApp Bot Panel, View Once Unlocker.">
+<meta property="og:type" content="website">
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+*{font-family:'Inter',sans-serif;box-sizing:border-box}
+body{background:#08080a;color:#fff;margin:0;min-height:100vh}
+
+.header{padding:24px 20px;display:flex;justify-content:space-between;align-items:center;max-width:1000px;margin:0 auto}
+.logo{font-size:24px;font-weight:900;letter-spacing:-1px} .logo span{color:gold}
+.badge{background:#16161a;border:1px solid #26262c;padding:8px 16px;border-radius:99px;font-size:12px;font-weight:600}
+
+.hero{max-width:1000px;margin:10px auto;padding:20px;text-align:center}
+.hero h1{font-size:46px;line-height:1.05;margin:12px 0;font-weight:900;letter-spacing:-1.5px}
+.hero p{color:#888;font-size:15px;max-width:600px;margin:0 auto 24px}
+
+.grid{max-width:1000px;margin:20px auto;display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;padding:0 20px}
+.app{background:#111115;border:1px solid #222228;border-radius:20px;padding:22px;text-align:left;cursor:pointer;transition:.2s}
+.app:hover{border-color:gold;transform:translateY(-3px)}
+.app .icon{font-size:32px;margin-bottom:10px}
+.app h3{margin:0;font-size:17px;font-weight:800} .app p{margin:6px 0 0;color:#777;font-size:12px;line-height:1.4}
+
+.full{max-width:1000px;margin:20px auto;padding:0 20px;display:none}
+.full.show{display:block}
+.box{background:#111115;border:1px solid #222228;border-radius:24px;padding:28px}
+label{font-size:11px;color:#777;letter-spacing:1px;display:block;text-align:left;margin:12px 0 6px;font-weight:700}
+input, textarea, select{width:100%;background:#18181d;border:1px solid #2a2a32;padding:16px;border-radius:14px;color:#fff;font-size:15px;outline:none;margin-bottom:10px}
+input:focus, textarea:focus, select:focus{border-color:gold}
+
+.btn{width:100%;border:none;padding:18px;border-radius:16px;font-weight:800;font-size:15px;margin-top:10px;cursor:pointer;transition:.2s}
+.btn:active{transform:scale(.98)}
+.btn-clean{background:#fff;color:#000}
+.btn-wm{background:#1a1a20;color:#fff;border:1px solid #333}
+.back{color:gold;font-size:13px;cursor:pointer;margin-bottom:16px;display:inline-block;font-weight:700}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:14px;margin-top:16px}
+.feat-card{background:#18181d;border:1px solid #26262e;padding:18px;border-radius:16px;text-align:left}
+.feat-card h4{margin:0 0 6px;color:gold;font-size:15px}
+.feat-card p{margin:0;color:#aaa;font-size:13px;line-height:1.5}
+.cmd-badge{background:#000;color:gold;padding:2px 6px;border-radius:6px;font-family:monospace;font-size:12px}
+
+#pay{max-width:1000px;margin:20px auto;padding:0 20px;display:none}
+.payinner{background:gold;color:#000;padding:20px;border-radius:20px;text-align:center;font-weight:700}
+.hidden{display:none !important}
+.stat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}
+.stat div{background:#000;border:1px solid #222;padding:14px;border-radius:14px;text-align:center}
+.stat b{color:gold;display:block;font-size:18px} .stat span{font-size:11px;color:#888}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Lanez <span>Pure™</span> OS</div>
+  <div class="badge">● LIVE • <span id="left">1 FREE CLEAN</span></div>
+</div>
+
+<div id="mainSection">
+  <div class="hero">
+    <h1>All Tools.<br>One <span style="color:gold">Pure™</span> Platform.</h1>
+    <p>HD Downloads, WhatsApp Bot Pairing, Group Tools & View Once Unlocker.</p>
+  </div>
+  <div class="grid">
+    <div class="app" onclick="openApp('dl')"><div class="icon">🎬</div><h3>Pure Downloader</h3><p>TikTok, IG, FB, X<br>Clean HD Exports</p></div>
+    <div class="app" onclick="openApp('pair')"><div class="icon">🔗</div><h3>Bot Pair Panel</h3><p>Pair WhatsApp Bot<br>Instant Setup Code</p></div>
+    <div class="app" onclick="openApp('bot-info')"><div class="icon">⚡</div><h3>Bot Commands</h3><p>View Once, Stickers<br>Group Tagging</p></div>
+    <div class="app" onclick="openApp('support')"><div class="icon">💬</div><h3>Support & Feedback</h3><p>Report Bugs<br>Request Features</p></div>
+  </div>
+</div>
+
+<!-- DOWNLOADER PANEL -->
+<div class="full" id="app-dl">
+  <div class="box">
+    <span class="back" onclick="goHome()">← Back to Main Portal</span>
+    <label>PURE DOWNLOADER</label>
+    <h2 style="text-align:left;margin:4px 0 12px">Pure Downloader 🎬</h2>
+    <input id="url" placeholder="Paste TikTok / IG / FB / X video link">
+    <button class="btn btn-clean" id="dlCleanBtn" onclick="doDL('clean')">✨ WITHOUT Watermark</button>
+    <button class="btn btn-wm" id="dlWmBtn" onclick="doDL('wm')">💧 WITH Watermark (Free Always)</button>
+
+    <div id="prev" style="display:none;margin-top:16px">
+      <video id="v" controls style="width:100%;max-height:400px;border-radius:14px"></video>
+      <a id="dlBtn" href="#" target="_blank" style="display:block;background:#fff;color:#000;padding:14px;text-align:center;font-weight:900;text-decoration:none;border-radius:12px;margin-top:10px">⬇️ Download File</a>
+    </div>
+  </div>
+</div>
+
+<!-- PAIRING PANEL -->
+<div class="full" id="app-pair">
+  <div class="box">
+    <span class="back" onclick="goHome()">← Back to Main Portal</span>
+    <label>BOT PAIRING / LANEZ XMD</label>
+    <h2 style="text-align:left;margin:4px 0 0">Link WhatsApp Bot 🔗</h2>
+
+    <div class="stat">
+      <div><b id="speed">⚡ 0.8s</b><span>Bot Speed</span></div>
+      <div><b id="uptime">--</b><span>Uptime</span></div>
+      <div><b id="visitors">--</b><span>Views</span></div>
+    </div>
+
+    <input id="num" placeholder="Country code + Number (e.g. 2335XXXXXXX)" type="number" style="margin-top:16px">
+    <button class="btn btn-clean" id="pairBtn" onclick="doPair()">Generate Pair Code</button>
+    <div id="code" style="display:none;margin-top:16px;background:#000;border:2px dashed gold;color:gold;padding:18px;border-radius:16px;font-size:24px;letter-spacing:4px;font-weight:900;text-align:center"></div>
+  </div>
+</div>
+
+<!-- BOT INFO PANEL -->
+<div class="full" id="app-bot-info">
+  <div class="box">
+    <span class="back" onclick="goHome()">← Back to Main Portal</span>
+    <label>WHATSAPP BOT COMMANDS</label>
+    <h2 style="text-align:left;margin:4px 0 12px">Bot Capabilities ⚡</h2>
+
+    <div class="features-grid">
+      <div class="feat-card">
+        <h4>👁️ View Once Unlocker</h4>
+        <p>Reply directly to any View Once photo or video with <span class="cmd-badge">.ok</span> to receive media in DMs.</p>
+      </div>
+      <div class="feat-card">
+        <h4>🖼️ Sticker Maker</h4>
+        <p>Reply to any image with <span class="cmd-badge">.sticker</span> to convert it into a WhatsApp sticker.</p>
+      </div>
+      <div class="feat-card">
+        <h4>📢 Group Mentions</h4>
+        <p>Use <span class="cmd-badge">.tagall</span> or <span class="cmd-badge">.hidetag</span> to notify members instantly.</p>
+      </div>
+    </div>
+
+    <button class="btn btn-clean" style="margin-top:20px" onclick="openApp('pair')">Pair WhatsApp Bot Now →</button>
+  </div>
+</div>
+
+<!-- SUPPORT PANEL -->
+<div class="full" id="app-support">
+  <div class="box">
+    <span class="back" onclick="goHome()">← Back to Main Portal</span>
+    <label>COMMUNICATION CENTER</label>
+    <h2 style="text-align:left;margin:4px 0 12px">Support & Feedback 💬</h2>
+
+    <label>SELECT TOPIC</label>
+    <select id="suppType">
+      <option value="Bug Report">🐛 Report Issue / Bug</option>
+      <option value="Feature Request">✨ Suggest Feature</option>
+      <option value="Payment Help">💳 Payment & Credits</option>
+    </select>
+
+    <label>CONTACT INFORMATION</label>
+    <input id="suppContact" placeholder="WhatsApp number or Email">
+
+    <label>YOUR MESSAGE</label>
+    <textarea id="suppMsg" rows="4" placeholder="Explain your request or issue..."></textarea>
+
+    <button class="btn btn-clean" onclick="sendSupport()">Submit Feedback</button>
+  </div>
+</div>
+
+<!-- PAYMENT BANNER -->
+<div id="pay">
+  <div class="payinner">
+    🔒 Free Clean Export Used<br>
+    <small style="font-weight:normal">Get 5 more clean exports for GHS 5. Watermarked downloads remain unlimited free.</small><br>
+    <button onclick="pay()" style="margin-top:10px;background:#000;color:gold;border:none;padding:14px 24px;border-radius:12px;font-weight:900;cursor:pointer">Pay GHS 5 via MoMo / Card</button>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const PAYSTACK_PUBLIC_KEY = "pk_test_YOUR_KEY_HERE";
+
+function openApp(name){
+  $('mainSection').classList.add('hidden');
+  document.querySelectorAll('.full').forEach(e=>e.classList.remove('show'));
+  $('app-'+name).classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goHome(){
+  $('mainSection').classList.remove('hidden');
+  document.querySelectorAll('.full').forEach(e=>e.classList.remove('show'));
+  ui();
+}
+
+function state(){
+  let u = localStorage.getItem('pure_used'); 
+  let p = parseInt(localStorage.getItem('pure_paid') || 0); 
+  if(p > 0) return { m: 'paid', l: p }; 
+  if(!u) return { m: 'free', l: 1 }; 
+  return { m: 'wm', l: 0 };
+}
+
+function ui(){
+  let s = state(); 
+  $('left').innerText = s.m === 'paid' ? s.l + ' PAID EXPORTS' : s.m === 'free' ? '1 FREE CLEAN' : 'FREE WM MODE'; 
+  $('pay').style.display = s.m === 'wm' ? 'block' : 'none';
+}
+
+async function recordVisit(){
+  try {
+    const r = await fetch('/api/visit').then(x=>x.json()).catch(()=>null);
+    if(r?.visitors) $('visitors').innerText = r.visitors;
+  }catch{}
+}
+
+async function loadStats(){
+  try {
+    const r = await fetch('/api/stats').then(x=>x.json()).catch(()=>null);
+    if(r) {
+      $('speed').innerText = '⚡ ' + r.speed;
+      $('uptime').innerText = r.uptime;
+      if($('visitors').innerText === '--') $('visitors').innerText = r.visitors;
+    }
+  }catch{}
+}
+
+async function doDL(type){
+  let link = $('url').value.trim(); 
+  if(!link) return alert('Please paste a media URL');
+  let s = state();
+  if(type === 'clean' && s.m === 'wm'){ 
+    $('pay').style.display = 'block'; 
+    $('pay').scrollIntoView({behavior:'smooth'}); 
+    return; 
+  }
+
+  try {
+    let r = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(link)}&hd=1`).then(x=>x.json()).catch(()=>null);
+    let videoUrl = r?.data?.hdplay || r?.data?.play;
+
+    if(!videoUrl) throw new Error('Could not extract video');
+
+    $('prev').style.display = 'block';
+    $('v').src = videoUrl;
+    $('dlBtn').href = videoUrl;
+
+    if(type === 'clean'){
+      if(s.m === 'free') localStorage.setItem('pure_used', '1'); 
+      else if(s.m === 'paid') localStorage.setItem('pure_paid', s.l - 1);
+    }
+  } catch(err) {
+    alert('Extraction failed. Verify URL.');
+  } finally {
+    ui();
+  }
+}
+
+async function doPair(){
+  let n = $('num').value.trim(); 
+  if(!n) return alert('Enter phone number with country code');
+  
+  const btn = $('pairBtn');
+  btn.innerText = 'Generating Code...';
+  btn.disabled = true;
+
+  try { 
+    let d = await fetch('/pair', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number: n })
+    }).then(x => x.json());
+
+    if(d.code){
+      $('code').style.display = 'block';
+      $('code').innerText = d.code;
+      btn.innerText = 'Generate Pair Code';
+      btn.disabled = false;
+    } else {
+      alert(d.error || 'Pairing failed.');
+      btn.innerText = 'Generate Pair Code';
+      btn.disabled = false;
+    }
+  } catch {
+    alert('Server error.');
+    btn.innerText = 'Generate Pair Code';
+    btn.disabled = false;
+  } 
+}
+
+async function sendSupport(){
+  const type = $('suppType').value;
+  const contact = $('suppContact').value.trim();
+  const message = $('suppMsg').value.trim();
+  if(!message) return alert('Please enter message text.');
+
+  try {
+    const res = await fetch('/api/support', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, contact, message })
+    }).then(r => r.json());
+
+    if(res.success){
+      alert('Feedback submitted!');
+      $('suppMsg').value = '';
+      goHome();
+    }
+  } catch {
+    alert('Submission failed.');
+  }
+}
+
+function pay(){ 
+  let handler = PaystackPop.setup({
+    key: PAYSTACK_PUBLIC_KEY,
+    email: `user_${Date.now()}@lanezpure.com`,
+    amount: 500,
+    currency: 'GHS',
+    callback: function(response){
+      fetch('/api/verify-paystack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reference: response.reference })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.success){
+          localStorage.setItem('pure_paid', '5');
+          ui();
+          alert('Payment verified! 5 clean exports added.');
+        }
+      });
+    }
+  });
+  handler.openIframe(); 
+}
+
+recordVisit();
+loadStats();
+ui();
+setInterval(loadStats, 5000);
+</script>
+</body>
+  </html>
+  
