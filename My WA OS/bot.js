@@ -28,6 +28,17 @@ const PREFIX = '.';
 
 async function startBot(pairingNumber = null, onCodeGenerated = null) {
     const authFolder = path.join(__dirname, 'auth_info_lanez');
+
+    // If requesting a new pairing code, clear old session files to prevent invalid code errors
+    if (pairingNumber && fs.existsSync(authFolder)) {
+        try {
+            fs.rmSync(authFolder, { recursive: true, force: true });
+            console.log('🧹 Cleaned previous auth session for new pairing attempt.');
+        } catch (err) {
+            console.error('Failed to clear auth folder:', err.message);
+        }
+    }
+
     const { state, saveCreds } = await useMultiFileAuthState(authFolder);
     const { version } = await fetchLatestBaileysVersion();
 
@@ -68,7 +79,7 @@ async function startBot(pairingNumber = null, onCodeGenerated = null) {
                 }
             }
 
-            // 2. Send Welcome DM to User
+            // 2. Send Welcome Message & Dashboard to User DM
             try {
                 const uptimeSeconds = Math.floor(process.uptime());
                 const uptimeMin = Math.floor(uptimeSeconds / 60);
@@ -112,7 +123,9 @@ async function startBot(pairingNumber = null, onCodeGenerated = null) {
     if (pairingNumber && onCodeGenerated && !sock.authState.creds.registered) {
         setTimeout(async () => {
             try {
+                // Strip all non-numeric characters (spaces, +, dashes)
                 let cleanedNumber = pairingNumber.replace(/[^0-9]/g, '');
+
                 const code = await sock.requestPairingCode(cleanedNumber);
                 console.log(`🔑 Pair code generated: ${code}`);
                 onCodeGenerated(code);
@@ -120,7 +133,7 @@ async function startBot(pairingNumber = null, onCodeGenerated = null) {
                 console.error('Pair code error:', err.message);
                 onCodeGenerated(null);
             }
-        }, 3000);
+        }, 4000);
     }
 
     // Message Router
@@ -172,4 +185,3 @@ async function startBot(pairingNumber = null, onCodeGenerated = null) {
 }
 
 module.exports = { startBot };
-                
